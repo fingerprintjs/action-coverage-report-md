@@ -55,8 +55,9 @@ export function processRow(
       columns[0] = mdLeadingSpaces + fileName
     } else {
       const filePath = basePath ? `${basePath}/${fileName}` : fileName
-      columns[0] = `${mdLeadingSpaces}[${fileName}](${githubBaseUrl}/${filePath})`
-      columns[5] = formatUncoveredLines(columns[5], filePath)
+      const fullFilePath = `${githubBaseUrl}/${filePath}`
+      columns[0] = `${mdLeadingSpaces}[${fileName}](${fullFilePath})`
+      columns[5] = formatUncoveredLines(columns[5], fullFilePath)
     }
   }
   return {

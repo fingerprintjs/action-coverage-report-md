@@ -20,7 +20,7 @@ async function run(): Promise<void> {
     if (!repository) {
       core.error('Can`t detect owner url')
     }
-    const githubBaseUrl = `${serverUrl}/${owner}/${repository}/commit/${sha}`
+    const githubBaseUrl = `${serverUrl}/${owner}/${repository}/blob/${sha}`
     core.debug(`githubBaseUrl: ${githubBaseUrl}`)
     const mdReport = await getMarkdownReport(
       textCoverageReportPath,

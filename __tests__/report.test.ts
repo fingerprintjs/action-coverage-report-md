@@ -87,4 +87,16 @@ describe('Test `processRow` function', () => {
       '&nbsp;&nbsp;[use-previous.ts](https://base.url/sha/src/utils/use-previous.ts)|     100 |      100 |     100 |     100 |'
     )
   })
+
+  it('row with uncovered lines', () => {
+    const {basePath, updatedRow} = processRow(
+      ' report.ts |    77.5 |      100 |   71.42 |    77.5 | 8-24     ',
+      'src/utils',
+      'https://base.url/sha'
+    )
+    expect(basePath).toEqual('src/utils')
+    expect(updatedRow).toEqual(
+      '&nbsp;[report.ts](https://base.url/sha/src/utils/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://base.url/sha/src/utils/report.ts#L8-L24)'
+    )
+  })
 })
