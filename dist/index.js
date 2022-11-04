@@ -36,29 +36,19 @@ const report_1 = __nccwpck_require__(8269);
 async function run() {
     try {
         const textCoverageReportPath = core.getInput('textReportPath');
-        const { sha, ref } = github.context;
+        const { sha, serverUrl } = github.context;
+        const { repo: repository } = github.context.repo;
         if (!sha) {
             core.error('Can`t detect commit SHA');
         }
-        if (!ref) {
+        if (!sha) {
+            core.error('Can`t detect serverUrl');
+        }
+        if (!repository) {
             core.error('Can`t detect repo url');
         }
-        const githubBaseUrl = `${ref}/commit/${sha}`;
-        // const octokit = github.getOctokit(myToken)
-        // const { data: pullRequest } = await octokit.rest.pulls.get({
-        //   owner: 'octokit',
-        //   repo: 'rest.js',
-        //   pull_number: 123,
-        //   mediaType: {
-        //     format: 'diff'
-        //   }
-        // });
-        // core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
-        //
-        // core.debug(new Date().toTimeString())
-        // await wait(parseInt(ms, 10))
-        // core.debug(new Date().toTimeString())
-        //
+        const githubBaseUrl = `${serverUrl}/${repository}/commit/${sha}`;
+        core.debug(`githubBaseUrl: ${githubBaseUrl}`);
         const mdReport = await (0, report_1.getMarkdownReport)(textCoverageReportPath, githubBaseUrl);
         core.setOutput('markdownReport', mdReport);
     }
@@ -1173,7 +1163,7 @@ class Context {
         this.runNumber = parseInt(process.env.GITHUB_RUN_NUMBER, 10);
         this.runId = parseInt(process.env.GITHUB_RUN_ID, 10);
         this.apiUrl = (_a = process.env.GITHUB_API_URL) !== null && _a !== void 0 ? _a : `https://api.github.com`;
-        this.serverUrl = (_b = process.env.GITHUB_SERVER_URL) !== null && _b !== void 0 ? _b : `https://github.com`;
+            this.serverUrl = (_b = process.env.GITHUB_SERVER_URL) !== null && _b !== void 0 ? _b : `https://github.com`;
         this.graphqlUrl = (_c = process.env.GITHUB_GRAPHQL_URL) !== null && _c !== void 0 ? _c : `https://api.github.com/graphql`;
     }
     get issue() {
