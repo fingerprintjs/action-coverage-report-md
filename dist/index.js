@@ -37,7 +37,7 @@ async function run() {
     try {
         const textCoverageReportPath = core.getInput('textReportPath');
         const { sha, serverUrl } = github.context;
-        const { repo: repository } = github.context.repo;
+        const { repo: repository, owner } = github.context.repo;
         if (!sha) {
             core.error('Can`t detect commit SHA');
         }
@@ -47,7 +47,10 @@ async function run() {
         if (!repository) {
             core.error('Can`t detect repo url');
         }
-        const githubBaseUrl = `${serverUrl}/${repository}/commit/${sha}`;
+        if (!repository) {
+            core.error('Can`t detect owner url');
+        }
+        const githubBaseUrl = `${serverUrl}/${owner}/${repository}/commit/${sha}`;
         core.debug(`githubBaseUrl: ${githubBaseUrl}`);
         const mdReport = await (0, report_1.getMarkdownReport)(textCoverageReportPath, githubBaseUrl);
         core.setOutput('markdownReport', mdReport);
