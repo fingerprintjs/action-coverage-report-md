@@ -5,6 +5,7 @@ import {getMarkdownReport} from './report'
 async function run(): Promise<void> {
   try {
     const textCoverageReportPath: string = core.getInput('textReportPath')
+    const srcBasePath: string = core.getInput('srcBasePath')
     const {sha, serverUrl} = github.context
     const {repo: repository, owner} = github.context.repo
 
@@ -22,10 +23,11 @@ async function run(): Promise<void> {
     }
     const githubBaseUrl = `${serverUrl}/${owner}/${repository}/blob/${sha}`
     core.debug(`githubBaseUrl: ${githubBaseUrl}`)
-    const mdReport = await getMarkdownReport(
-      textCoverageReportPath,
-      githubBaseUrl
-    )
+    const mdReport = await getMarkdownReport({
+      pathToTextReport: textCoverageReportPath,
+      githubBaseUrl,
+      srcBasePath
+    })
     core.setOutput('markdownReport', mdReport)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

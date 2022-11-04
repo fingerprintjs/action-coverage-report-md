@@ -6,6 +6,11 @@ inputs:
     required: false
     description: 'path to the coverage report in Istanbul text format'
     default: './coverage/coverage.txt'
+  srcBasePath:
+    required: false
+    description: 'base path for the source folder'
+    default: './src'
+
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -36,6 +36,7 @@ const report_1 = __nccwpck_require__(8269);
 async function run() {
     try {
         const textCoverageReportPath = core.getInput('textReportPath');
+        const srcBasePath = core.getInput('srcBasePath');
         const { sha, serverUrl } = github.context;
         const { repo: repository, owner } = github.context.repo;
         if (!sha) {
@@ -52,7 +53,11 @@ async function run() {
         }
         const githubBaseUrl = `${serverUrl}/${owner}/${repository}/blob/${sha}`;
         core.debug(`githubBaseUrl: ${githubBaseUrl}`);
-        const mdReport = await (0, report_1.getMarkdownReport)(textCoverageReportPath, githubBaseUrl);
+        const mdReport = await (0, report_1.getMarkdownReport)({
+            pathToTextReport: textCoverageReportPath,
+            githubBaseUrl,
+            srcBasePath
+        });
         core.setOutput('markdownReport', mdReport);
     }
     catch (error) {
@@ -74,13 +79,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.formatUncoveredLines = exports.processRow = exports.getReportParts = exports.getMarkdownReport = void 0;
+exports.formatUncoveredLines = exports.processRow = exports.getReportParts = exports.getMarkdownReportFromTextReport = exports.getMarkdownReport = void 0;
 const promises_1 = __importDefault(__nccwpck_require__(3292));
 const path_1 = __importDefault(__nccwpck_require__(1017));
-async function getMarkdownReport(pathToTextReport, githubBaseUrl) {
-    const data = await promises_1.default.readFile(pathToTextReport, { encoding: 'utf8' });
-    const { coverageInfoHeader, coverageInfoRows } = getReportParts(data);
-    let currentBasePath = '';
+async function getMarkdownReport({ pathToTextReport, ...restOptions }) {
+    const textReport = await promises_1.default.readFile(pathToTextReport, { encoding: 'utf8' });
+    return getMarkdownReportFromTextReport({ textReport, ...restOptions });
+}
+exports.getMarkdownReport = getMarkdownReport;
+function getMarkdownReportFromTextReport({ textReport, githubBaseUrl, srcBasePath }) {
+    const { coverageInfoHeader, coverageInfoRows } = getReportParts(textReport);
+    let currentBasePath = path_1.default.relative('', srcBasePath);
     const modifiedInfoRows = coverageInfoRows.map(row => {
         const { updatedRow, basePath } = processRow(row, currentBasePath, githubBaseUrl);
         currentBasePath = basePath;
@@ -88,7 +97,7 @@ async function getMarkdownReport(pathToTextReport, githubBaseUrl) {
     });
     return [coverageInfoHeader.join('\n'), modifiedInfoRows.join('\n')].join('\n');
 }
-exports.getMarkdownReport = getMarkdownReport;
+exports.getMarkdownReportFromTextReport = getMarkdownReportFromTextReport;
 function getReportParts(rawCoverage) {
     const trimmedRawCoverage = rawCoverage.trim();
     const rawCoverageRows = trimmedRawCoverage.split('\n');

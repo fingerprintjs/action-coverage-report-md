@@ -1,10 +1,18 @@
 import {describe, it, expect} from '@jest/globals'
-import {formatUncoveredLines, getReportParts, processRow} from '../src/report'
+import {
+  formatUncoveredLines,
+  getMarkdownReportFromTextReport,
+  getReportParts,
+  processRow
+} from '../src/report'
 import {
   fullTextReportMock,
   fullTextReportMockWithExtraEmptyLines,
   textReportBodyMock,
-  textReportHeaderMock
+  textReportHeaderMock,
+  smallTextReportMock,
+  smallTextReportNoBaseMock,
+  smallTextReportSrcBaseMock
 } from './mocks'
 
 describe('Test `getReportParts` function', () => {
@@ -98,5 +106,29 @@ describe('Test `processRow` function', () => {
     expect(updatedRow).toEqual(
       '&nbsp;[report.ts](https://base.url/sha/src/utils/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://base.url/sha/src/utils/report.ts#L8-L24)'
     )
+  })
+})
+
+describe('Test `getMarkdownReportFromTextReport` function', () => {
+  it('small report without base', () => {
+    expect(
+      getMarkdownReportFromTextReport({
+        textReport: smallTextReportMock,
+        srcBasePath: '',
+        githubBaseUrl:
+          'https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71'
+      })
+    ).toEqual(smallTextReportNoBaseMock)
+  })
+
+  it('small report with `./src` base', () => {
+    expect(
+      getMarkdownReportFromTextReport({
+        textReport: smallTextReportMock,
+        srcBasePath: './src',
+        githubBaseUrl:
+          'https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71'
+      })
+    ).toEqual(smallTextReportSrcBaseMock)
   })
 })

@@ -1,15 +1,30 @@
 import fs from 'fs/promises'
 import path from 'path'
 
-export async function getMarkdownReport(
-  pathToTextReport: string,
+export async function getMarkdownReport({
+  pathToTextReport,
+  ...restOptions
+}: {
+  pathToTextReport: string
   githubBaseUrl: string
-): Promise<string> {
-  const data = await fs.readFile(pathToTextReport, {encoding: 'utf8'})
+  srcBasePath: string
+}): Promise<string> {
+  const textReport = await fs.readFile(pathToTextReport, {encoding: 'utf8'})
+  return getMarkdownReportFromTextReport({textReport, ...restOptions})
+}
 
-  const {coverageInfoHeader, coverageInfoRows} = getReportParts(data)
+export function getMarkdownReportFromTextReport({
+  textReport,
+  githubBaseUrl,
+  srcBasePath
+}: {
+  textReport: string
+  githubBaseUrl: string
+  srcBasePath: string
+}): string {
+  const {coverageInfoHeader, coverageInfoRows} = getReportParts(textReport)
 
-  let currentBasePath = ''
+  let currentBasePath = path.relative('', srcBasePath)
   const modifiedInfoRows = coverageInfoRows.map(row => {
     const {updatedRow, basePath} = processRow(
       row,
