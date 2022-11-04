@@ -1,11 +1,11 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Markdown coverage report'
+description: 'GitHub action for creating markdown coverage report from Istanbul text report'
+author: 'FingerprintJS'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  textReportPath:
+    required: false
+    description: 'path to the coverage report in Istanbul text format'
+    default: './coverage/coverage.txt'
 runs:
   using: 'node16'
   main: 'dist/index.js'

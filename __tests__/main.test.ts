@@ -1,29 +1,31 @@
-import {wait} from '../src/wait'
 import * as process from 'process'
 import * as cp from 'child_process'
 import * as path from 'path'
 import {expect, test} from '@jest/globals'
+import * as fs from 'fs/promises'
+import {smallTextReportMock, smallTextReportResultMock} from './mocks'
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
-})
-
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
-})
-
+const coverageDir = './coverage'
+const coverageMockPath = `${coverageDir}/coverage-mock.txt`
 // shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
+test('test runs', async () => {
+  process.env['INPUT_TEXTREPORTPATH'] = coverageMockPath
+  process.env['GITHUB_SHA'] = 'b7f702e50c62e5291dfa74886525bfe4b5ee2c71'
+  process.env['GITHUB_REF'] =
+    'https://github.com/fingerprintjs/action-coverage-report-md'
   const np = process.execPath
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
   const options: cp.ExecFileSyncOptions = {
     env: process.env
   }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+
+  try {
+    await fs.readdir(coverageDir)
+  } catch (e) {
+    await fs.mkdir(coverageDir)
+  }
+  await fs.writeFile(coverageMockPath, smallTextReportMock)
+  expect(
+    cp.execFileSync(np, [ip], options).toString().replaceAll('%0A', '\n')
+  ).toEqual(smallTextReportResultMock)
 })
