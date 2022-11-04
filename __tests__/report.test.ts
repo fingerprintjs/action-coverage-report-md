@@ -2,35 +2,13 @@ import {describe, it, expect} from '@jest/globals'
 import {
   formatUncoveredLines,
   getMarkdownReportFromTextReport,
-  getReportParts,
   processRow
 } from '../src/report'
 import {
-  fullTextReportMock,
-  fullTextReportMockWithExtraEmptyLines,
-  textReportBodyMock,
-  textReportHeaderMock,
   smallTextReportMock,
   smallTextReportNoBaseMock,
   smallTextReportSrcBaseMock
 } from './mocks'
-
-describe('Test `getReportParts` function', () => {
-  it('check on trimmed data', () => {
-    const {coverageInfoHeader, coverageInfoRows} =
-      getReportParts(fullTextReportMock)
-    expect(coverageInfoHeader).toEqual(textReportHeaderMock.split('\n'))
-    expect(coverageInfoRows).toEqual(textReportBodyMock.split('\n'))
-  })
-
-  it('check on data with extra empty lines', () => {
-    const {coverageInfoHeader, coverageInfoRows} = getReportParts(
-      fullTextReportMockWithExtraEmptyLines
-    )
-    expect(coverageInfoHeader).toEqual(textReportHeaderMock.split('\n'))
-    expect(coverageInfoRows).toEqual(textReportBodyMock.split('\n'))
-  })
-})
 
 describe('Test `formatUncoveredLines` function', () => {
   it('empty string', () => {

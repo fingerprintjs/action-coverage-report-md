@@ -79,16 +79,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.formatUncoveredLines = exports.processRow = exports.getReportParts = exports.getMarkdownReportFromTextReport = exports.getMarkdownReport = void 0;
+exports.formatUncoveredLines = exports.processRow = exports.getMarkdownReportFromTextReport = exports.getMarkdownReport = void 0;
 const promises_1 = __importDefault(__nccwpck_require__(3292));
 const path_1 = __importDefault(__nccwpck_require__(1017));
+const getReportParts_1 = __nccwpck_require__(7019);
 async function getMarkdownReport({ pathToTextReport, ...restOptions }) {
     const textReport = await promises_1.default.readFile(pathToTextReport, { encoding: 'utf8' });
     return getMarkdownReportFromTextReport({ textReport, ...restOptions });
 }
 exports.getMarkdownReport = getMarkdownReport;
 function getMarkdownReportFromTextReport({ textReport, githubBaseUrl, srcBasePath }) {
-    const { coverageInfoHeader, coverageInfoRows } = getReportParts(textReport);
+    const { coverageInfoHeader, coverageInfoRows } = (0, getReportParts_1.getReportParts)(textReport);
     let currentBasePath = path_1.default.relative('', srcBasePath);
     const modifiedInfoRows = coverageInfoRows.map(row => {
         const { updatedRow, basePath } = processRow(row, currentBasePath, githubBaseUrl);
@@ -98,15 +99,6 @@ function getMarkdownReportFromTextReport({ textReport, githubBaseUrl, srcBasePat
     return [coverageInfoHeader.join('\n'), modifiedInfoRows.join('\n')].join('\n');
 }
 exports.getMarkdownReportFromTextReport = getMarkdownReportFromTextReport;
-function getReportParts(rawCoverage) {
-    const trimmedRawCoverage = rawCoverage.trim();
-    const rawCoverageRows = trimmedRawCoverage.split('\n');
-    const coverageRows = rawCoverageRows.slice(1, rawCoverageRows.length - 1);
-    const coverageInfoHeader = coverageRows.slice(0, 3);
-    const coverageInfoRows = coverageRows.slice(3);
-    return { coverageInfoHeader, coverageInfoRows };
-}
-exports.getReportParts = getReportParts;
 function processRow(row, basePath, githubBaseUrl) {
     // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
     const columns = row.split('|');
@@ -144,6 +136,26 @@ function formatUncoveredLines(rawUncoveredLines, filePath) {
         .join(',');
 }
 exports.formatUncoveredLines = formatUncoveredLines;
+
+
+/***/ }),
+
+/***/ 7019:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getReportParts = void 0;
+function getReportParts(rawCoverage) {
+    const trimmedRawCoverage = rawCoverage.trim();
+    const rawCoverageRows = trimmedRawCoverage.split('\n');
+    const coverageRows = rawCoverageRows.slice(1, rawCoverageRows.length - 1);
+    const coverageInfoHeader = coverageRows.slice(0, 3);
+    const coverageInfoRows = coverageRows.slice(3);
+    return { coverageInfoHeader, coverageInfoRows };
+}
+exports.getReportParts = getReportParts;
 
 
 /***/ }),
