@@ -67,7 +67,7 @@ export function processRow(
       columns[5] = formatUncoveredLines(columns[5], fullFilePath)
     }
   }
-  const updatedRow = getStatus(parseFloat(columns[4])) + columns.join('|')
+  const updatedRow = getStatus(parseFloat(columns[1])) + columns.join('|')
   return {
     basePath,
     updatedRow
@@ -101,7 +101,7 @@ function addStatusColumn(headerRows: string[]) {
       case 2:
         // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
         const columns = row.split('|')
-        return getStatus(parseFloat(columns[4])) + row
+        return getStatus(parseFloat(columns[1])) + row
     }
   })
 }

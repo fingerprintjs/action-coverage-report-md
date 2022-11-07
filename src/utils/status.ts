@@ -2,10 +2,10 @@ const RED_STATUS = '🔴|'
 const YELLOW_STATUS = '🟡|'
 const GREEN_STATUS = '🟢|'
 
-export function getStatus(linesCovered: number): string {
-  if (linesCovered < 50) {
+export function getStatus(statementsCovered: number): string {
+  if (statementsCovered < 50) {
     return RED_STATUS
-  } else if (linesCovered > 80) {
+  } else if (statementsCovered > 80) {
     return GREEN_STATUS
   } else {
     return YELLOW_STATUS

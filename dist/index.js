@@ -120,7 +120,7 @@ function processRow(row, basePath, githubBaseUrl) {
             columns[5] = formatUncoveredLines(columns[5], fullFilePath);
         }
     }
-    const updatedRow = (0, status_1.getStatus)(parseFloat(columns[4])) + columns.join('|');
+    const updatedRow = (0, status_1.getStatus)(parseFloat(columns[1])) + columns.join('|');
     return {
         basePath,
         updatedRow
@@ -149,7 +149,7 @@ function addStatusColumn(headerRows) {
             case 2:
                 // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
                 const columns = row.split('|');
-                return (0, status_1.getStatus)(parseFloat(columns[4])) + row;
+                return (0, status_1.getStatus)(parseFloat(columns[1])) + row;
         }
     });
 }
@@ -187,11 +187,11 @@ exports.statusHeader = exports.getStatus = void 0;
 const RED_STATUS = '🔴|';
 const YELLOW_STATUS = '🟡|';
 const GREEN_STATUS = '🟢|';
-function getStatus(linesCovered) {
-    if (linesCovered < 50) {
+function getStatus(statementsCovered) {
+    if (statementsCovered < 50) {
         return RED_STATUS;
     }
-    else if (linesCovered > 80) {
+    else if (statementsCovered > 80) {
         return GREEN_STATUS;
     }
     else {
