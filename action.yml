@@ -10,6 +10,9 @@ inputs:
     required: false
     description: 'base path for the source folder'
     default: './src'
+outputs:
+  markdownReport:
+    description: 'Coverage report in markdown'
 
 runs:
   using: 'node16'
