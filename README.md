@@ -2,104 +2,61 @@
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
 
-# Create a JavaScript Action using TypeScript
+# Jest coverage report in markdown
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+This action uses a text coverage report from jest and generates a markdown report based on it.
+The report generates as in the example below. Each file gets a link to the correct version; the same goes for uncovered lines.
+Statuses also add to the table.
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
+St|File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+--|--------------------|---------|----------|---------|---------|-------------------
+🟡|All files           |   70.58 |    72.22 |   83.33 |   71.42 |                   
+🟡|&nbsp;src|   63.23 |    64.28 |      80 |   64.17 |                   
+🔴|&nbsp;&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/main.ts)|       0 |        0 |       0 |       0 |[1-37](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/main.ts#L1-L37)
+🟢|&nbsp;&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/report.ts)|   95.55 |      100 |   88.88 |   95.55 |[14-15](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/report.ts#L14-L15)
+🟢|&nbsp;src/utils|     100 |      100 |     100 |     100 |                   
+🟢|&nbsp;&nbsp;[getReportParts.ts](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/utils/getReportParts.ts)|     100 |      100 |     100 |     100 |
+🟢|&nbsp;&nbsp;[status.ts](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/utils/status.ts)|     100 |      100 |     100 |     100 |
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
 
-## Create an action from this template
+## Usage
 
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Main
-
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
-
-Install the dependencies  
-```bash
-$ npm install
-```
-
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
-
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
+Action returns output `markdownReport` and you can use it in other actions.
+Example below shows how to use this report in the comment to pr
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+steps:
+  - uses: fingerprintjs/action-coverage-report-md@V1
+    id: coverage
+  - uses: marocchino/sticky-pull-request-comment@v2
+    with:
+      message: ${{ steps.coverage.outputs.markdownReport }}
 ```
 
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
+### Extended usage
 
-## Usage:
+```yaml
+steps:
+  - uses: fingerprintjs/action-coverage-report-md@V1
+    id: coverage
+    with:
+      textReportPath: './coverage/text-report.txt'
+      srcBasePath: './utils'
+  - uses: marocchino/sticky-pull-request-comment@v2
+    with:
+      message: ${{ steps.coverage.outputs.markdownReport }}
+```
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+## API
+
+###Inputs
+
+`textReportPath` - path to the coverage report in Istanbul text format.
+default value is `'./coverage/coverage.txt'`
+
+`srcBasePath` - base path for the source folder
+default value is `'./src'`
+
+### Outputs
+
+`markdownReport` - Coverage report in markdown
