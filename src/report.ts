@@ -1,6 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import {getReportParts} from './utils/getReportParts'
+import {getStatus, statusHeader} from './utils/status'
 
 export async function getMarkdownReport({
   pathToTextReport,
@@ -36,7 +37,9 @@ export function getMarkdownReportFromTextReport({
     return updatedRow
   })
 
-  return [coverageInfoHeader.join('\n'), modifiedInfoRows.join('\n')].join('\n')
+  const modifiedInfoHeader = addStatusColumn(coverageInfoHeader)
+
+  return [modifiedInfoHeader.join('\n'), modifiedInfoRows.join('\n')].join('\n')
 }
 
 export function processRow(
@@ -64,9 +67,10 @@ export function processRow(
       columns[5] = formatUncoveredLines(columns[5], fullFilePath)
     }
   }
+  const updatedRow = getStatus(parseFloat(columns[4])) + columns.join('|')
   return {
     basePath,
-    updatedRow: columns.join('|')
+    updatedRow
   }
 }
 
@@ -85,4 +89,19 @@ export function formatUncoveredLines(
     .map(group => group.trim())
     .map(group => `[${group}](${filePath}#${group.replaceAll(/\d+/g, 'L$&')})`)
     .join(',')
+}
+
+function addStatusColumn(headerRows: string[]) {
+  return headerRows.map((row, key) => {
+    switch (key) {
+      case 0:
+        return statusHeader + row
+      case 1:
+        return `--|` + row
+      case 2:
+        // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
+        const columns = row.split('|')
+        return getStatus(parseFloat(columns[4])) + row
+    }
+  })
 }

@@ -47,7 +47,7 @@ describe('Test `processRow` function', () => {
     )
     expect(basePath).toEqual('src/components')
     expect(updatedRow).toEqual(
-      '&nbsp;src/components|   90.54 |       75 |   86.66 |   92.64 |'
+      '🟢|&nbsp;src/components|   90.54 |       75 |   86.66 |   92.64 |'
     )
   })
   it('row with file, empty basePath, 100% coverage', () => {
@@ -58,7 +58,7 @@ describe('Test `processRow` function', () => {
     )
     expect(basePath).toEqual('')
     expect(updatedRow).toEqual(
-      '&nbsp;&nbsp;[env.ts](https://base.url/sha/env.ts)|     100 |      100 |     100 |     100 |'
+      '🟢|&nbsp;&nbsp;[env.ts](https://base.url/sha/env.ts)|     100 |      100 |     100 |     100 |'
     )
   })
 
@@ -70,7 +70,7 @@ describe('Test `processRow` function', () => {
     )
     expect(basePath).toEqual('src/utils')
     expect(updatedRow).toEqual(
-      '&nbsp;&nbsp;[use-previous.ts](https://base.url/sha/src/utils/use-previous.ts)|     100 |      100 |     100 |     100 |'
+      '🟢|&nbsp;&nbsp;[use-previous.ts](https://base.url/sha/src/utils/use-previous.ts)|     100 |      100 |     100 |     100 |'
     )
   })
 
@@ -82,7 +82,19 @@ describe('Test `processRow` function', () => {
     )
     expect(basePath).toEqual('src/utils')
     expect(updatedRow).toEqual(
-      '&nbsp;[report.ts](https://base.url/sha/src/utils/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://base.url/sha/src/utils/report.ts#L8-L24)'
+      '🟡|&nbsp;[report.ts](https://base.url/sha/src/utils/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://base.url/sha/src/utils/report.ts#L8-L24)'
+    )
+  })
+
+  it('row with uncovered file', () => {
+    const {basePath, updatedRow} = processRow(
+      ' report.ts |    0 |      0 |   0 |    0 | 1-24     ',
+      'src/utils',
+      'https://base.url/sha'
+    )
+    expect(basePath).toEqual('src/utils')
+    expect(updatedRow).toEqual(
+      '🔴|&nbsp;[report.ts](https://base.url/sha/src/utils/report.ts)|    0 |      0 |   0 |    0 |[1-24](https://base.url/sha/src/utils/report.ts#L1-L24)'
     )
   })
 })

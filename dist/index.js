@@ -83,6 +83,7 @@ exports.formatUncoveredLines = exports.processRow = exports.getMarkdownReportFro
 const promises_1 = __importDefault(__nccwpck_require__(3292));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const getReportParts_1 = __nccwpck_require__(7019);
+const status_1 = __nccwpck_require__(1141);
 async function getMarkdownReport({ pathToTextReport, ...restOptions }) {
     const textReport = await promises_1.default.readFile(pathToTextReport, { encoding: 'utf8' });
     return getMarkdownReportFromTextReport({ textReport, ...restOptions });
@@ -96,7 +97,8 @@ function getMarkdownReportFromTextReport({ textReport, githubBaseUrl, srcBasePat
         currentBasePath = basePath;
         return updatedRow;
     });
-    return [coverageInfoHeader.join('\n'), modifiedInfoRows.join('\n')].join('\n');
+    const modifiedInfoHeader = addStatusColumn(coverageInfoHeader);
+    return [modifiedInfoHeader.join('\n'), modifiedInfoRows.join('\n')].join('\n');
 }
 exports.getMarkdownReportFromTextReport = getMarkdownReportFromTextReport;
 function processRow(row, basePath, githubBaseUrl) {
@@ -118,9 +120,10 @@ function processRow(row, basePath, githubBaseUrl) {
             columns[5] = formatUncoveredLines(columns[5], fullFilePath);
         }
     }
+    const updatedRow = (0, status_1.getStatus)(parseFloat(columns[4])) + columns.join('|');
     return {
         basePath,
-        updatedRow: columns.join('|')
+        updatedRow
     };
 }
 exports.processRow = processRow;
@@ -136,6 +139,20 @@ function formatUncoveredLines(rawUncoveredLines, filePath) {
         .join(',');
 }
 exports.formatUncoveredLines = formatUncoveredLines;
+function addStatusColumn(headerRows) {
+    return headerRows.map((row, key) => {
+        switch (key) {
+            case 0:
+                return status_1.statusHeader + row;
+            case 1:
+                return `--|` + row;
+            case 2:
+                // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
+                const columns = row.split('|');
+                return (0, status_1.getStatus)(parseFloat(columns[4])) + row;
+        }
+    });
+}
 
 
 /***/ }),
@@ -156,6 +173,33 @@ function getReportParts(rawCoverage) {
     return { coverageInfoHeader, coverageInfoRows };
 }
 exports.getReportParts = getReportParts;
+
+
+/***/ }),
+
+/***/ 1141:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.statusHeader = exports.getStatus = void 0;
+const RED_STATUS = '🔴|';
+const YELLOW_STATUS = '🟡|';
+const GREEN_STATUS = '🟢|';
+function getStatus(linesCovered) {
+    if (linesCovered < 50) {
+        return RED_STATUS;
+    }
+    else if (linesCovered > 80) {
+        return GREEN_STATUS;
+    }
+    else {
+        return YELLOW_STATUS;
+    }
+}
+exports.getStatus = getStatus;
+exports.statusHeader = 'St|';
 
 
 /***/ }),

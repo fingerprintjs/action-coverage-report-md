@@ -84,21 +84,21 @@ All files  |   54.38 |    66.66 |    62.5 |   55.35 |
 `
 
 export const smallTextReportResultMock = `
-::set-output name=markdownReport::File       | %25 Stmts | %25 Branch | %25 Funcs | %25 Lines | Uncovered Line #s 
------------|---------|----------|---------|---------|-------------------
-All files  |   54.38 |    66.66 |    62.5 |   55.35 |                   
-&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts)|       0 |        0 |       0 |       0 |[1-46](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts#L1-L46)
-&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts#L8-L24)
+::set-output name=markdownReport::St|File       | %25 Stmts | %25 Branch | %25 Funcs | %25 Lines | Uncovered Line #s 
+--|-----------|---------|----------|---------|---------|-------------------
+🟡|All files  |   54.38 |    66.66 |    62.5 |   55.35 |                   
+🔴|&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts)|       0 |        0 |       0 |       0 |[1-46](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts#L1-L46)
+🟡|&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts#L8-L24)
 `
 
-export const smallTextReportNoBaseMock = `File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
------------|---------|----------|---------|---------|-------------------
-All files  |   54.38 |    66.66 |    62.5 |   55.35 |                   
-&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts)|       0 |        0 |       0 |       0 |[1-46](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts#L1-L46)
-&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts#L8-L24)`
+export const smallTextReportNoBaseMock = `St|File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+--|-----------|---------|----------|---------|---------|-------------------
+🟡|All files  |   54.38 |    66.66 |    62.5 |   55.35 |                   
+🔴|&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts)|       0 |        0 |       0 |       0 |[1-46](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/main.ts#L1-L46)
+🟡|&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/report.ts#L8-L24)`
 
-export const smallTextReportSrcBaseMock = `File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
------------|---------|----------|---------|---------|-------------------
-All files  |   54.38 |    66.66 |    62.5 |   55.35 |                   
-&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/main.ts)|       0 |        0 |       0 |       0 |[1-46](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/main.ts#L1-L46)
-&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/report.ts#L8-L24)`
+export const smallTextReportSrcBaseMock = `St|File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+--|-----------|---------|----------|---------|---------|-------------------
+🟡|All files  |   54.38 |    66.66 |    62.5 |   55.35 |                   
+🔴|&nbsp;[main.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/main.ts)|       0 |        0 |       0 |       0 |[1-46](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/main.ts#L1-L46)
+🟡|&nbsp;[report.ts](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/report.ts)|    77.5 |      100 |   71.42 |    77.5 |[8-24](https://github.com/fingerprintjs/action-coverage-report-md/commit/b7f702e50c62e5291dfa74886525bfe4b5ee2c71/src/report.ts#L8-L24)`
