@@ -88,6 +88,7 @@ const promises_1 = __importDefault(__nccwpck_require__(3292));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const getReportParts_1 = __nccwpck_require__(7019);
 const status_1 = __nccwpck_require__(1141);
+const getBasePath_1 = __nccwpck_require__(916);
 async function getMarkdownReport({ pathToTextReport, ...restOptions }) {
     const textReport = await promises_1.default.readFile(pathToTextReport, { encoding: 'utf8' });
     return getMarkdownReportFromTextReport({ textReport, ...restOptions });
@@ -95,10 +96,14 @@ async function getMarkdownReport({ pathToTextReport, ...restOptions }) {
 exports.getMarkdownReport = getMarkdownReport;
 function getMarkdownReportFromTextReport({ textReport, githubBaseUrl, srcBasePath }) {
     const { coverageInfoHeader, coverageInfoRows } = (0, getReportParts_1.getReportParts)(textReport);
-    let currentBasePath = path_1.default.relative('', srcBasePath);
+    const normalizedBasePath = path_1.default.relative('', srcBasePath);
+    let currentBasePath = normalizedBasePath;
     const modifiedInfoRows = coverageInfoRows.map(row => {
         const { updatedRow, basePath } = processRow(row, currentBasePath, githubBaseUrl);
-        currentBasePath = basePath;
+        currentBasePath = (0, getBasePath_1.getBasePath)({
+            coverageBasePath: normalizedBasePath,
+            parsedBasePath: basePath
+        });
         return updatedRow;
     });
     const modifiedInfoHeader = addStatusColumn(coverageInfoHeader);
@@ -157,6 +162,28 @@ function addStatusColumn(headerRows) {
         }
     });
 }
+
+
+/***/ }),
+
+/***/ 916:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getBasePath = void 0;
+const path_1 = __importDefault(__nccwpck_require__(1017));
+function getBasePath({ coverageBasePath, parsedBasePath }) {
+    if (parsedBasePath.startsWith(coverageBasePath)) {
+        return parsedBasePath;
+    }
+    return path_1.default.relative('', `${coverageBasePath}/${parsedBasePath}`);
+}
+exports.getBasePath = getBasePath;
 
 
 /***/ }),

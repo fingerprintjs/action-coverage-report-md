@@ -2,6 +2,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import {getReportParts} from './utils/getReportParts'
 import {getStatus, statusHeader} from './utils/status'
+import {getBasePath} from './utils/getBasePath'
 
 export async function getMarkdownReport({
   pathToTextReport,
@@ -26,14 +27,18 @@ export function getMarkdownReportFromTextReport({
 }): string {
   const {coverageInfoHeader, coverageInfoRows} = getReportParts(textReport)
 
-  let currentBasePath = path.relative('', srcBasePath)
+  const normalizedBasePath = path.relative('', srcBasePath)
+  let currentBasePath = normalizedBasePath
   const modifiedInfoRows = coverageInfoRows.map(row => {
     const {updatedRow, basePath} = processRow(
       row,
       currentBasePath,
       githubBaseUrl
     )
-    currentBasePath = basePath
+    currentBasePath = getBasePath({
+      coverageBasePath: normalizedBasePath,
+      parsedBasePath: basePath
+    })
     return updatedRow
   })
 
