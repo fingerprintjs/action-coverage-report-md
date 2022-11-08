@@ -48,7 +48,7 @@ async function run() {
         if (!repository) {
             core.error('Can`t detect repo url');
         }
-        if (!repository) {
+        if (!owner) {
             core.error('Can`t detect owner url');
         }
         const githubBaseUrl = `${serverUrl}/${owner}/${repository}/blob/${sha}`;
@@ -61,8 +61,12 @@ async function run() {
         core.setOutput('markdownReport', mdReport);
     }
     catch (error) {
-        if (error instanceof Error)
+        if (error instanceof Error) {
             core.setFailed(error.message);
+        }
+        else {
+            core.setFailed(String(error));
+        }
     }
 }
 run();

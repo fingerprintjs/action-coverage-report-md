@@ -18,7 +18,7 @@ async function run(): Promise<void> {
     if (!repository) {
       core.error('Can`t detect repo url')
     }
-    if (!repository) {
+    if (!owner) {
       core.error('Can`t detect owner url')
     }
     const githubBaseUrl = `${serverUrl}/${owner}/${repository}/blob/${sha}`
@@ -30,7 +30,11 @@ async function run(): Promise<void> {
     })
     core.setOutput('markdownReport', mdReport)
   } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    } else {
+      core.setFailed(String(error))
+    }
   }
 }
 
