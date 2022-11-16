@@ -2,7 +2,7 @@ This action based on [typescript-action template](https://github.com/actions/typ
 
 To understand actions see the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
 
-## Useful command
+## Useful commands
 
 Install the dependencies
 ```bash
