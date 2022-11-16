@@ -149,18 +149,15 @@ function formatUncoveredLines(rawUncoveredLines, filePath) {
 }
 exports.formatUncoveredLines = formatUncoveredLines;
 function addStatusColumn(headerRows) {
-    return headerRows.map((row, key) => {
-        switch (key) {
-            case 0:
-                return status_1.statusHeader + row;
-            case 1:
-                return `--|` + row;
-            case 2:
-                // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
-                const columns = row.split('|');
-                return (0, status_1.getStatus)(parseFloat(columns[1])) + row;
-        }
+    const [header, divider, ...commonRows] = headerRows;
+    const headerWithStatus = status_1.statusHeader + header;
+    const dividerWithStatus = `--|${divider}`;
+    const commonRowsWithStatus = commonRows.map(row => {
+        // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
+        const [, statements] = row.split('|');
+        return (0, status_1.getStatus)(parseFloat(statements)) + row;
     });
+    return [headerWithStatus, dividerWithStatus, ...commonRowsWithStatus];
 }
 
 

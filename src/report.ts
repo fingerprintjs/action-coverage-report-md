@@ -96,17 +96,16 @@ export function formatUncoveredLines(
     .join(',')
 }
 
-function addStatusColumn(headerRows: string[]) {
-  return headerRows.map((row, key) => {
-    switch (key) {
-      case 0:
-        return statusHeader + row
-      case 1:
-        return `--|` + row
-      case 2:
-        // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
-        const columns = row.split('|')
-        return getStatus(parseFloat(columns[1])) + row
-    }
+function addStatusColumn(headerRows: string[]): string[] {
+  const [header, divider, ...commonRows] = headerRows
+
+  const headerWithStatus = statusHeader + header
+  const dividerWithStatus = `--|${divider}`
+  const commonRowsWithStatus = commonRows.map(row => {
+    // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
+    const [, statements] = row.split('|')
+    return getStatus(parseFloat(statements)) + row
   })
+
+  return [headerWithStatus, dividerWithStatus, ...commonRowsWithStatus]
 }
