@@ -49,7 +49,7 @@ steps:
 
 ## API
 
-###Inputs
+### Inputs
 
 `textReportPath` - path to the coverage report in Istanbul text format.
 default value is `'./coverage/coverage.txt'`
