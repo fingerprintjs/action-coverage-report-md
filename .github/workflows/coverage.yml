@@ -1,0 +1,22 @@
+name: 'coverage'
+on: # rebuild any PRs and main branch changes
+  pull_request:
+
+jobs:
+  coverage: # make sure build/ci work properly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          yarn install
+      - run: |
+          yarn build
+      - run: |
+          yarn test:coverage
+      - uses: ./
+        id: coverage
+        with:
+          srcBasePath: './src'
+      - uses: marocchino/sticky-pull-request-comment@adca94abcaf73c10466a71cc83ae561fd66d1a56
+        with:
+          message: ${{ steps.coverage.outputs.markdownReport }}

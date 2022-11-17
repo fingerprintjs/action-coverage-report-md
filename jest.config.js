@@ -5,5 +5,7 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },
-  verbose: true
+  verbose: true,
+  collectCoverageFrom: ['./src/**/**.{ts,tsx}'],
+  coverageReporters: [['text', { file: 'coverage.txt', path: './' }]],
 }
