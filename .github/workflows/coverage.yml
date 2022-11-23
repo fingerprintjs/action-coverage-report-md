@@ -20,6 +20,6 @@ jobs:
         id: coverage
         with:
           srcBasePath: './src'
-      - uses: marocchino/sticky-pull-request-comment@adca94abcaf73c10466a71cc83ae561fd66d1a56
+      - uses: marocchino/sticky-pull-request-comment@fcf6fe9e4a0409cd9316a5011435be0f3327f1e1
         with:
           message: ${{ steps.coverage.outputs.markdownReport }}
