@@ -26,7 +26,7 @@ Example below shows how to use this report in the comment to pr
 
 ```yaml
 steps:
-  - uses: fingerprintjs/action-coverage-report-md@V1
+  - uses: fingerprintjs/action-coverage-report-md@v1
     id: coverage
   - uses: marocchino/sticky-pull-request-comment@v2
     with:
@@ -37,7 +37,7 @@ steps:
 
 ```yaml
 steps:
-  - uses: fingerprintjs/action-coverage-report-md@V1
+  - uses: fingerprintjs/action-coverage-report-md@v1
     id: coverage
     with:
       textReportPath: './coverage/text-report.txt'
