@@ -1,6 +1,9 @@
 name: 'Markdown coverage report'
 description: 'GitHub action for creating markdown coverage report from Istanbul text report'
 author: 'FingerprintJS'
+branding:
+  icon: 'check-square'
+  color: 'green'
 inputs:
   textReportPath:
     required: false
