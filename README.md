@@ -26,9 +26,11 @@ Example below shows how to use this report in the comment to pr
 
 ```yaml
 steps:
-  - uses: fingerprintjs/action-coverage-report-md@v1
+  - name: Prepare coverage report in markdown
+    uses: fingerprintjs/action-coverage-report-md@v1
     id: coverage
-  - uses: marocchino/sticky-pull-request-comment@v2
+  - name: Add coverage comment to the PR 
+    uses: marocchino/sticky-pull-request-comment@v2
     with:
       message: ${{ steps.coverage.outputs.markdownReport }}
 ```
@@ -37,14 +39,37 @@ steps:
 
 ```yaml
 steps:
-  - uses: fingerprintjs/action-coverage-report-md@v1
+  - name: Prepare coverage report in markdown
+    uses: fingerprintjs/action-coverage-report-md@v1
     id: coverage
     with:
       textReportPath: './coverage/text-report.txt'
       srcBasePath: './utils'
-  - uses: marocchino/sticky-pull-request-comment@v2
+  - name: Add coverage comment to the PR 
+    uses: marocchino/sticky-pull-request-comment@v2
     with:
       message: ${{ steps.coverage.outputs.markdownReport }}
+```
+
+#### Add coverage report to the job summary
+
+You can add code coverage report to the job summary. More you can find
+in [the official documentation](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary).
+
+![Job summary example](resources/job_summary_example.png)
+
+```yaml
+steps:
+  - name: Prepare coverage report in markdown
+    uses: fingerprintjs/action-coverage-report-md@v1
+    id: coverage
+    with:
+      textReportPath: './coverage/text-report.txt'
+      srcBasePath: './utils'
+  - name: Add coverage report to the job summary
+    run: |
+      echo "## Code Coverage" >> $GITHUB_STEP_SUMMARY
+      echo "${{ steps.coverage.outputs.markdownReport }}" >> $GITHUB_STEP_SUMMARY
 ```
 
 ## API
@@ -60,3 +85,55 @@ default value is `'./src'`
 ### Outputs
 
 `markdownReport` - Coverage report in markdown
+
+## How to get text coverage report
+
+### Jest
+
+#### CLI
+
+```shell
+npx jest --coverage --coverageReporters="text" > coverage.txt
+```
+
+#### Configuration file
+
+```js
+module.exports = {
+  // ... other settings
+  coverageReporters: [['text', { file: 'coverage.txt', path: './' }]],
+};
+```
+
+### nyc (Istanbul)
+
+#### CLI
+
+```shell
+npx nyc report --reporter=text > ./coverage/coverage.txt
+```
+
+#### Configuration file
+
+```js
+module.exports = {
+  // ... other settings
+  "reporter": ["text"],
+  "report-dir": "./coverage"  // will generate a file ./coverage/text.txt
+}
+```
+### Karma
+
+```js
+module.exports = function(config) {
+  config.set({
+    // ... other settings
+    reporters: ['coverage'],
+    coverageReporter: {
+        type : 'text',
+        dir: './coverage',
+        file: 'coverage.txt'
+    }
+  });
+};
+```
