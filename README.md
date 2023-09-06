@@ -18,6 +18,8 @@ St|File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line
 🟢|&nbsp;&nbsp;[getReportParts.ts](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/utils/getReportParts.ts)|     100 |      100 |     100 |     100 |
 🟢|&nbsp;&nbsp;[status.ts](https://github.com/fingerprintjs/action-coverage-report-md/blob/80148ef2d10c51d31e3a472c61ce2ead8b68a2e1/src/utils/status.ts)|     100 |      100 |     100 |     100 |
 
+> **Note**
+> This package isn’t part of our core product. It’s kindly shared “as-is” without any guaranteed level of support from Fingerprint. We warmly welcome community contributions.
 
 ## Usage
 
