@@ -55,8 +55,8 @@ steps:
 
 #### Add coverage report to the job summary
 
-You can add code coverage report to the job summary. More you can find
-in [the official documentation](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary).
+You can add a code coverage report to the job summary. For more information, see
+[Adding a job summary](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary) in the GitHub Actions documentation.
 
 ![Job summary example](resources/job_summary_example.png)
 
@@ -88,7 +88,7 @@ default value is `'./src'`
 
 `markdownReport` - Coverage report in markdown
 
-## How to get text coverage report
+## How to get a text coverage report
 
 ### Jest
 
