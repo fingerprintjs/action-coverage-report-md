@@ -2,11 +2,11 @@
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
 
-# Jest coverage report in markdown
+# Jest coverage report in Markdown
 
-This action uses a text coverage report from jest and generates a markdown report based on it.
-The report generates as in the example below. Each file gets a link to the correct version; the same goes for uncovered lines.
-Statuses also add to the table.
+This action uses a text coverage report from Jest and generates a Markdown report based on it in the format shown below.
+The table shows the status of each file. Each file and uncovered line is properly linked to it's examined version on
+GitHub.
 
 St|File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 --|--------------------|---------|----------|---------|---------|-------------------
@@ -23,8 +23,8 @@ St|File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line
 
 ## Usage
 
-Action returns output `markdownReport` and you can use it in other actions.
-Example below shows how to use this report in the comment to pr
+The action returns a `markdownReport` output that you can use in other actions. The example below shows how to use the
+report in a pull request comment.
 
 ```yaml
 steps:
@@ -78,27 +78,28 @@ steps:
 
 ### Inputs
 
-`textReportPath` - path to the coverage report in Istanbul text format.
-default value is `'./coverage/coverage.txt'`
-
-`srcBasePath` - base path for the source folder
-default value is `'./src'`
+| Name             | Type     | Default Value               | Description                                                                          |
+|------------------|----------|-----------------------------|--------------------------------------------------------------------------------------|
+| `textReportPath` | `string` | `'./coverage/coverage.txt'` | Path to the coverage report in the [Istanbul](https://istanbul.js.org/) text format. |
+| `srcBasePath`    | `string` | `'./src'`                   | Base path for the source folder.                                                     |
 
 ### Outputs
 
-`markdownReport` - Coverage report in markdown
+| Name             | Type     | Description                         |
+|------------------|----------|-------------------------------------|
+| `markdownReport` | `string` | Coverage report in Markdown format. |
 
 ## How to get a text coverage report
 
 ### Jest
 
-#### CLI
+* Using a CLI:
 
 ```shell
 npx jest --coverage --coverageReporters="text" > coverage.txt
 ```
 
-#### Configuration file
+* Using a Configuration file:
 
 ```js
 module.exports = {
@@ -109,13 +110,13 @@ module.exports = {
 
 ### nyc (Istanbul)
 
-#### CLI
+* Using a CLI:
 
 ```shell
 npx nyc report --reporter=text > ./coverage/coverage.txt
 ```
 
-#### Configuration file
+* Using a Configuration file:
 
 ```js
 module.exports = {
