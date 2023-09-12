@@ -23,3 +23,7 @@ jobs:
       - uses: marocchino/sticky-pull-request-comment@efaaab3fd41a9c3de579aba759d2552635e590fd
         with:
           message: ${{ steps.coverage.outputs.markdownReport }}
+      - name: Publish job summary
+        run: |
+          echo "## Code Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.coverage.outputs.markdownReport }}" >> $GITHUB_STEP_SUMMARY

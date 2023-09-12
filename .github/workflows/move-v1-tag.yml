@@ -1,0 +1,32 @@
+name: Move v1 Tag
+
+on:
+  workflow_dispatch:
+
+jobs:
+  move-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check branch
+        run: |
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "This action can only be run on the main branch."
+            exit 1
+          fi
+
+      - name: Set up Git user
+        run: |
+          git config user.name "semantic-release-bot"
+          git config user.email "semantic-release-bot@martynus.net"
+
+      - name: Move v1 tag to the latest commit in main
+        run: |
+          git fetch --tags
+          git tag -d v1 || echo "v1 tag not found, continuing"
+          git push origin :refs/tags/v1 || echo "v1 tag not found in origin, continuing"
+          git tag v1
+          git push origin v1
