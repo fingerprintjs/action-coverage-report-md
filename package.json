@@ -3,15 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "description": "TypeScript template action",
-  "main": "lib/main.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint",
     "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "all": "pnpm run format && pnpm run lint && pnpm run package && pnpm test"
+    "all": "pnpm run format && pnpm run lint && pnpm run package && pnpm run test"
   },
   "repository": {
     "type": "git",

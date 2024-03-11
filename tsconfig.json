@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "target": "ES2022",                       /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
     "module": "NodeNext",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'ESNext' or 'NodeNext'. */
     "moduleResolution": "NodeNext",
@@ -14,5 +15,6 @@
     "skipLibCheck": true,
     "newLine": "lf"
   },
-  "exclude": ["./dist", "node_modules", "**/*.test.ts", "__tests__/", "./coverage"]
+  "include": ["./__tests__/**/*", "./src/**/*"],
+  "exclude": ["./dist", "node_modules", "./__tests__", "./coverage", "*.json"],
 }
