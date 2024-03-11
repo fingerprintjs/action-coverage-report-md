@@ -6,17 +6,17 @@ To understand actions see the [Hello World JavaScript Action](https://github.com
 
 Install the dependencies
 ```bash
-$ yarn install
+$ pnpm install
 ```
 
 Build the typescript and package it for distribution
 ```bash
-$ yarn run build && yarn run package
+$ pnpm run package
 ```
 
 Run the tests :heavy_check_mark:
 ```bash
-$ yarn test
+$ pnpm test
 ```
 
 ## action.yml
@@ -32,7 +32,7 @@ Actions are run from GitHub repos so we will checkin the packed dist folder.
 
 Then run [ncc](https://github.com/zeit/ncc) and push the results:
 ```bash
-$ yarn run package
+$ pnpm run package
 $ git add dist
 $ git commit -a -m "prod dependencies"
 $ git push origin releases/v1
@@ -46,4 +46,4 @@ See the [versioning documentation](https://github.com/actions/toolkit/blob/maste
 
 ## Usage:
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+After testing you can [create a v2 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V2 action
