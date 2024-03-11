@@ -1,8 +1,8 @@
 import fs from 'fs/promises'
 import path from 'path'
-import {getReportParts} from './utils/getReportParts'
-import {getStatus, statusHeader} from './utils/status'
-import {getBasePath} from './utils/getBasePath'
+import { getReportParts } from './utils/getReportParts'
+import { getStatus, statusHeader } from './utils/status'
+import { getBasePath } from './utils/getBasePath'
 
 export async function getMarkdownReport({
   pathToTextReport,
@@ -12,8 +12,8 @@ export async function getMarkdownReport({
   githubBaseUrl: string
   srcBasePath: string
 }): Promise<string> {
-  const textReport = await fs.readFile(pathToTextReport, {encoding: 'utf8'})
-  return getMarkdownReportFromTextReport({textReport, ...restOptions})
+  const textReport = await fs.readFile(pathToTextReport, { encoding: 'utf8' })
+  return getMarkdownReportFromTextReport({ textReport, ...restOptions })
 }
 
 export function getMarkdownReportFromTextReport({
@@ -25,12 +25,12 @@ export function getMarkdownReportFromTextReport({
   githubBaseUrl: string
   srcBasePath: string
 }): string {
-  const {coverageInfoHeader, coverageInfoRows} = getReportParts(textReport)
+  const { coverageInfoHeader, coverageInfoRows } = getReportParts(textReport)
 
   const normalizedBasePath = path.relative('', srcBasePath)
   let currentBasePath = normalizedBasePath
   const modifiedInfoRows = coverageInfoRows.map(row => {
-    const {updatedRow, basePath} = processRow(
+    const { updatedRow, basePath } = processRow(
       row,
       currentBasePath,
       githubBaseUrl
@@ -51,7 +51,7 @@ export function processRow(
   row: string,
   basePath: string,
   githubBaseUrl: string
-): {basePath: string; updatedRow: string} {
+): { basePath: string; updatedRow: string } {
   // 0: name | 1: statements | 2: branches | 3: functions | 4: lines | 5: uncovered lines
   const columns = row.split('|')
 

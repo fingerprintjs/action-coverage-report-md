@@ -1,4 +1,4 @@
-import {describe, it, expect} from '@jest/globals'
+import { describe, it, expect } from '@jest/globals'
 import {
   formatUncoveredLines,
   getMarkdownReportFromTextReport,
@@ -40,7 +40,7 @@ describe('Test `formatUncoveredLines` function', () => {
 
 describe('Test `processRow` function', () => {
   it('row with folder', () => {
-    const {basePath, updatedRow} = processRow(
+    const { basePath, updatedRow } = processRow(
       ' src/components        |   90.54 |       75 |   86.66 |   92.64 |',
       '',
       'https://base.url/sha'
@@ -51,7 +51,7 @@ describe('Test `processRow` function', () => {
     )
   })
   it('row with file, empty basePath, 100% coverage', () => {
-    const {basePath, updatedRow} = processRow(
+    const { basePath, updatedRow } = processRow(
       '  env.ts               |     100 |      100 |     100 |     100 |  ',
       '',
       'https://base.url/sha'
@@ -63,7 +63,7 @@ describe('Test `processRow` function', () => {
   })
 
   it('row with file, has basePath, 100% coverage', () => {
-    const {basePath, updatedRow} = processRow(
+    const { basePath, updatedRow } = processRow(
       '  use-previous.ts      |     100 |      100 |     100 |     100 | ',
       'src/utils',
       'https://base.url/sha'
@@ -75,7 +75,7 @@ describe('Test `processRow` function', () => {
   })
 
   it('row with uncovered lines', () => {
-    const {basePath, updatedRow} = processRow(
+    const { basePath, updatedRow } = processRow(
       ' report.ts |    77.5 |      100 |   71.42 |    77.5 | 8-24     ',
       'src/utils',
       'https://base.url/sha'
@@ -87,7 +87,7 @@ describe('Test `processRow` function', () => {
   })
 
   it('row with uncovered file', () => {
-    const {basePath, updatedRow} = processRow(
+    const { basePath, updatedRow } = processRow(
       ' report.ts |    0 |      0 |   0 |    0 | 1-24     ',
       'src/utils',
       'https://base.url/sha'
