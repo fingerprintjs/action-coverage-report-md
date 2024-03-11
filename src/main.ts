@@ -2,7 +2,7 @@ import * as github from '@actions/github'
 import * as core from '@actions/core'
 import {getMarkdownReport} from './report'
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     const textCoverageReportPath: string = core.getInput('textReportPath')
     const srcBasePath: string = core.getInput('srcBasePath')
@@ -37,5 +37,3 @@ async function run(): Promise<void> {
     }
   }
 }
-
-run()

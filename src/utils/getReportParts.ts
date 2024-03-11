@@ -7,5 +7,5 @@ export function getReportParts(rawCoverage: string): {
   const coverageRows = rawCoverageRows.slice(1, rawCoverageRows.length - 1)
   const coverageInfoHeader = coverageRows.slice(0, 3)
   const coverageInfoRows = coverageRows.slice(3)
-  return {coverageInfoHeader, coverageInfoRows}
+  return { coverageInfoHeader, coverageInfoRows }
 }

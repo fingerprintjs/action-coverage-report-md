@@ -5,6 +5,12 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "none",
-  "bracketSpacing": false,
-  "arrowParens": "avoid"
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": false,
+  "bracketSameLine": true,
+  "proseWrap": "always",
+  "htmlWhitespaceSensitivity": "css",
+  "endOfLine": "lf"
 }
