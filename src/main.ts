@@ -1,13 +1,13 @@
 import * as github from '@actions/github'
 import * as core from '@actions/core'
-import {getMarkdownReport} from './report'
+import { getMarkdownReport } from './report'
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     const textCoverageReportPath: string = core.getInput('textReportPath')
     const srcBasePath: string = core.getInput('srcBasePath')
-    const {sha, serverUrl} = github.context
-    const {repo: repository, owner} = github.context.repo
+    const { sha, serverUrl } = github.context
+    const { repo: repository, owner } = github.context.repo
 
     if (!sha) {
       core.error('Can`t detect commit SHA')
@@ -37,5 +37,3 @@ async function run(): Promise<void> {
     }
   }
 }
-
-run()

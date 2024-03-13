@@ -18,5 +18,5 @@ outputs:
     description: 'Coverage report in markdown'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'

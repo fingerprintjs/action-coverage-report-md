@@ -1,4 +1,4 @@
-name: Move v1 Tag
+name: Move v2 Tag
 
 on:
   workflow_dispatch:
@@ -23,10 +23,10 @@ jobs:
           git config user.name "semantic-release-bot"
           git config user.email "semantic-release-bot@martynus.net"
 
-      - name: Move v1 tag to the latest commit in main
+      - name: Move v2 tag to the latest commit in main
         run: |
           git fetch --tags
-          git tag -d v1 || echo "v1 tag not found, continuing"
-          git push origin :refs/tags/v1 || echo "v1 tag not found in origin, continuing"
-          git tag v1
-          git push origin v1
+          git tag -d v2 || echo "v2 tag not found, continuing"
+          git push origin :refs/tags/v2 || echo "v2 tag not found in origin, continuing"
+          git tag v2
+          git push origin v2
